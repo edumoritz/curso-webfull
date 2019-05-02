@@ -2,20 +2,24 @@
   <div class="category-admin">
 
     <b-form>
+      
       <input id="category-id" type="hidden" v-model="category.id" />
+
       <b-form-group label="Nome:" label-for="category-name">
         <b-form-input id="category-name" type="text" v-model="category.name" required 
           placeholder="Informe o Nome da Categoria..." :readonly="mode === 'remove'" />
       </b-form-group>
 
+    
       <b-form-group label="Categoria Pai:" label-for="category-parentId">
         <b-form-select v-if="mode === 'save'"
-            id="category-parentId"
-            :options="categories" v-model="category.parentId"></b-form-select>
+          id="category-parentId"
+          :readonly="mode === 'remove'"
+          :options="categories" v-model="category.parentId" />
         <b-form-input v-else
-            id="category-parentId" type="text"
-            v-model="category.path"
-            readonly />
+          id="category-parentId" type="text" 
+          v-model="category.path" 
+          readonly />
       </b-form-group>
 
       <b-button variant="primary" v-if="mode === 'save'"
@@ -78,7 +82,6 @@ export default {
     save() {
       const method = this.category.id ? 'put' : 'post'
       const id = this.category.id ? `/${this.category.id}` : ''
-      console.log(`${baseApiUrl}/categories${id}`, this.category)
       axios[method](`${baseApiUrl}/categories${id}`, this.category)
         .then(() => {
             this.$toasted.global.defaultSuccess()
@@ -97,7 +100,12 @@ export default {
     },
     loadCategory(category, mode = 'save') {
       this.mode = mode
-      this.category = { ...category }
+      this.category = { 
+        id: category.id,
+        name: category.name,
+        path: category.path,
+        parentId: category.parentId
+      }
     }
   },
   mounted() {
