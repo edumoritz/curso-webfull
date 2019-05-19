@@ -3,7 +3,7 @@
     <div class="auth-modal">
       <img src="@/assets/logo.png" alt="Logo" width="200">
       <hr>
-      <div class="auth-title">{{ showSignuo ? 'Cadastro' : 'Login' }}</div>
+      <div class="auth-title">{{ showSignup ? 'Cadastro' : 'Login' }}</div>
 
       <input v-if="showSignup" v-model="user.name" type="text" placeholder="Nome">
       <input v-model="user.email" name="email" type="text" placeholder="E-mail">
